@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Garde l'instance active entre les scènes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
