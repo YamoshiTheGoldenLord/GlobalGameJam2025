@@ -5,13 +5,15 @@ public class WaveManager : MonoBehaviour
 {
     public static WaveManager Instance { get; private set; }
 
-    public GameObject[] bubblePrefabs;  // Différents types de bulles
-    public Transform[] randomSpawnPoints;  // Points pour spawn aléatoirement
-    public Transform[] lineSpawnPoints;    // Points pour les lignes
-    public Transform[] cornerSpawnPoints;  // Coins inférieurs pour spawn en courbe
+    public GameObject[] bubblePrefabs;
+    public Transform[] randomSpawnPoints;
+    public Transform[] lineSpawnPoints;
+    public Transform[] cornerSpawnPoints;
 
-    public float timeBetweenWaves = 10f;  // Délai entre vagues
+    public float timeBetweenWaves = 10f;
     private int currentWaveIndex = 0;
+
+    public ObjectPool objectPool;
 
     private void Awake()
     {
@@ -19,6 +21,8 @@ public class WaveManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        objectPool = GetComponent<ObjectPool>();
     }
 
     private void Start()
@@ -28,7 +32,7 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator StartWaveRoutine()
     {
-        yield return new WaitForSeconds(2f);  // Délai avant la première vague
+        yield return new WaitForSeconds(2f);
 
         while (true)
         {
@@ -43,10 +47,11 @@ public class WaveManager : MonoBehaviour
         int bubbleCount = Random.Range(5, 15);
         float spawnRate = Random.Range(0.5f, 2f);
         GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
-        int spawnType = Random.Range(0, 3); // 0 = random, 1 = line, 2 = corner
 
         for (int i = 0; i < bubbleCount; i++)
         {
+            int spawnType = Random.Range(0, 3);
+
             switch (spawnType)
             {
                 case 0:
@@ -59,6 +64,7 @@ public class WaveManager : MonoBehaviour
                     SpawnFromCorner(bubblePrefab);
                     break;
             }
+
             yield return new WaitForSeconds(1f / spawnRate);
         }
     }
@@ -66,21 +72,31 @@ public class WaveManager : MonoBehaviour
     private void SpawnRandom(GameObject bubblePrefab)
     {
         Transform spawnPoint = randomSpawnPoints[Random.Range(0, randomSpawnPoints.Length)];
-        GameObject bubble = Instantiate(bubblePrefab, spawnPoint.position, Quaternion.identity);
-        StartCoroutine(GravitateAroundPoint(bubble, spawnPoint.position));
+
+        if (objectPool != null)
+        {
+            GameObject bubble = objectPool.GetFromPool(bubblePrefab);
+            bubble.transform.position = spawnPoint.position;
+            bubble.SetActive(true);
+            StartCoroutine(GravitateAroundPoint(bubble, spawnPoint.position));
+        }
+        else
+        {
+            Debug.LogError("ObjectPool n'est pas assigné !");
+        }
     }
 
     private IEnumerator GravitateAroundPoint(GameObject bubble, Vector3 center)
     {
         float angle = 0;
-        float rotationSpeed = 20f; // Réduction de la vitesse de rotation
-        float radius = 0.5f; // Réduction de la distance au centre
+        float rotationSpeed = 10f;
+        float radius = 0.3f;
 
         while (bubble != null)
         {
             angle += Time.deltaTime * rotationSpeed;
             bubble.transform.position = center + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
-            yield return null;
+            yield return new WaitForSeconds(0.02f);
         }
     }
 
@@ -88,36 +104,38 @@ public class WaveManager : MonoBehaviour
     {
         Transform spawnPoint = lineSpawnPoints[Random.Range(0, lineSpawnPoints.Length)];
         Vector3 spawnPosition = spawnPoint.position;
-        int direction = spawnPoint.position.x < 0 ? 1 : -1; // Gauche -> droite, Droite -> gauche
+        int direction = spawnPoint.position.x < 0 ? 1 : -1;
 
-        for (int i = 0; i < 5; i++) // Ligne de 5 bulles
+        for (int i = 0; i < 4; i++)
         {
-            GameObject bubble = Instantiate(bubblePrefab, spawnPosition, Quaternion.identity);
-            bubble.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(direction * 2f, 0);
-            spawnPosition += Vector3.up * 1.2f; // Espacement entre bulles
+            GameObject bubble = objectPool.GetFromPool(bubblePrefab);
+            bubble.transform.position = spawnPosition;
+            bubble.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(direction * 1.5f, 0);
+            spawnPosition += Vector3.up * 1.0f;
         }
     }
 
     private void SpawnFromCorner(GameObject bubblePrefab)
     {
         Transform spawnPoint = cornerSpawnPoints[Random.Range(0, cornerSpawnPoints.Length)];
-        GameObject bubble = Instantiate(bubblePrefab, spawnPoint.position, Quaternion.identity);
+        GameObject bubble = objectPool.GetFromPool(bubblePrefab);
+        bubble.transform.position = spawnPoint.position;
         StartCoroutine(MoveInCurve(bubble, spawnPoint.position));
     }
 
     private IEnumerator MoveInCurve(GameObject bubble, Vector3 startPosition)
     {
         float time = 0;
-        float curveHeight = Random.Range(2f, 5f);
-        Vector3 endPosition = new Vector3(0, startPosition.y + 5, startPosition.z);
+        float curveHeight = Random.Range(1.5f, 4f);
+        Vector3 endPosition = new Vector3(0, startPosition.y + 4, startPosition.z);
 
         while (time < 1)
         {
-            time += Time.deltaTime;
+            time += Time.deltaTime * 0.8f;
             float curvedY = Mathf.Lerp(startPosition.y, endPosition.y, time);
-            float curvedX = startPosition.x * (1 - time);  // Courbe vers le centre
+            float curvedX = startPosition.x * (1 - time);
             bubble.transform.position = new Vector3(curvedX, curvedY + Mathf.Sin(time * Mathf.PI) * curveHeight, startPosition.z);
-            yield return null;
+            yield return new WaitForSeconds(0.02f);
         }
     }
 }

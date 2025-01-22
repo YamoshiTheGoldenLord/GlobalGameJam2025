@@ -3,38 +3,52 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPool Instance { get; private set; }
-
-    private Dictionary<GameObject, Queue<GameObject>> poolDictionary = new Dictionary<GameObject, Queue<GameObject>>();
+    public GameObject[] bubblePrefabs;
+    public int poolSize = 10;
+    private Queue<GameObject> bubblePool;
+    private ObjectPool objectPool;
 
     private void Awake()
     {
-        Instance = this;
+        objectPool = GetComponent<ObjectPool>();
+
+        if (objectPool == null)
+        {
+            Debug.LogError("ObjectPool non trouvé dans la scène !");
+        }
+    }
+    private void Start()
+    {
+        bubblePool = new Queue<GameObject>();
+        foreach (var prefab in bubblePrefabs)
+        {
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject bubble = Instantiate(prefab);
+                bubble.SetActive(false);
+                bubblePool.Enqueue(bubble);
+            }
+        }
     }
 
     public GameObject GetFromPool(GameObject prefab)
     {
-        if (poolDictionary.ContainsKey(prefab) && poolDictionary[prefab].Count > 0)
+        if (bubblePool.Count > 0)
         {
-            GameObject pooledObject = poolDictionary[prefab].Dequeue();
-            pooledObject.SetActive(true);
-            return pooledObject;
+            GameObject bubble = bubblePool.Dequeue();
+            bubble.SetActive(true);
+            return bubble;
         }
         else
         {
-            GameObject newObj = Instantiate(prefab);
-            return newObj;
-    }
-}
-
-    public void ReturnToPool(GameObject prefab, GameObject instance)
-    {
-        instance.SetActive(false);
-        if (!poolDictionary.ContainsKey(prefab))
-        {
-            poolDictionary[prefab] = new Queue<GameObject>();
+            GameObject bubble = Instantiate(prefab);
+            return bubble;
         }
-        poolDictionary[prefab].Enqueue(instance);
-        Destroy(instance);
+    }
+
+    public void ReturnToPool(GameObject bubble)
+    {
+        bubble.SetActive(false);
+        bubblePool.Enqueue(bubble);
     }
 }

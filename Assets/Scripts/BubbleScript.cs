@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BubbleScript : MonoBehaviour
 {
@@ -22,8 +20,6 @@ public class BubbleScript : MonoBehaviour
     {
         Debug.Log($"Touched: {gameObject.name}");
         GetComponent<SpriteRenderer>().color = Color.red;
-        //GameManager.Instance.AddScore(1);
-        //ObjectPool.Instance.ReturnToPool(myPrefab, gameObject);
     }
 
 }
