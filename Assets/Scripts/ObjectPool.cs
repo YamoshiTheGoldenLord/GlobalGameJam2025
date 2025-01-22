@@ -24,8 +24,8 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject newObj = Instantiate(prefab);
             return newObj;
-        }
     }
+}
 
     public void ReturnToPool(GameObject prefab, GameObject instance)
     {

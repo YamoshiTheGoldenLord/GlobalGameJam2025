@@ -63,7 +63,7 @@ public class WaveManager : MonoBehaviour
     {
         Debug.Log("je spawn une bulle");
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        GameObject bubble = ObjectPool.Instance.GetFromPool(BubblePrefab);
+        GameObject bubble = Instantiate(BubblePrefab, spawnPoint); //ObjectPool.Instance.GetFromPool(BubblePrefab); pour une raison que je voit pas car je doit être miro il fait pas la fonction.
         bubble.transform.position = spawnPoint.position;
         bubble.SetActive(true);
     }
