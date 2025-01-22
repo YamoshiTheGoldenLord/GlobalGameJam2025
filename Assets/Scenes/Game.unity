@@ -464,6 +464,7 @@ MonoBehaviour:
   - {fileID: 415454076}
   timeBetweenWaves: 10
   currentWaveIndex: 0
+  isWaveActive: 0
 --- !u!1 &415454075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,8 +1457,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 748170067}
   - {fileID: 624208516}
+  - {fileID: 376188767}
+  - {fileID: 1985942235}
   - {fileID: 656493312}
   - {fileID: 1389229798}
   - {fileID: 1406444436}
-  - {fileID: 376188767}
-  - {fileID: 1985942235}

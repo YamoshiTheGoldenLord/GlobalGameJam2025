@@ -26,7 +26,7 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(StartWaveRoutine());
     }
 
-    private IEnumerator StartWaveRoutine()
+    private IEnumerator StartWaveRoutine() //start the manager
     {
         yield return new WaitForSeconds(2f); // Waiting before the first wave
 
@@ -36,7 +36,7 @@ public class WaveManager : MonoBehaviour
             currentWaveIndex++;
 
             // Increase difficulty after each wave
-            IncreaseDifficulty();
+            //IncreaseDifficulty();
 
             yield return new WaitForSeconds(timeBetweenWaves);
         }
@@ -44,7 +44,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("Toutes les vagues sont terminées !");
     }
 
-    private IEnumerator SpawnWave(Wave wave)
+    private IEnumerator SpawnWave(Wave wave) //spawn a wave
     {
         isWaveActive = true;
         BubblesInTheWave = wave.bubbleCount;
@@ -59,7 +59,7 @@ public class WaveManager : MonoBehaviour
         isWaveActive = false;
     }
 
-    private void SpawnBubble(GameObject BubblePrefab)
+    private void SpawnBubble(GameObject BubblePrefab) //spawn a bubble
     {
         Debug.Log("je spawn une bulle");
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
@@ -67,6 +67,8 @@ public class WaveManager : MonoBehaviour
         bubble.transform.position = spawnPoint.position;
         bubble.SetActive(true);
     }
+
+
 
     private void IncreaseDifficulty()
     {
