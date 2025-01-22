@@ -4,7 +4,7 @@ using UnityEngine;
 public class Wave
 {
     public string waveName;
-    public GameObject enemyPrefab;
-    public int enemyCount;
+    public GameObject prefab;
+    public int bubbleCount;
     public float spawnRate;
 }

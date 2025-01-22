@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
     public float timeBetweenWaves = 10f; // delay between waves
 
     public int currentWaveIndex = 0;
-    private bool isWaveActive = false;
+    [SerializeField] private bool isWaveActive = false;
     private int BubblesInTheWave = 0;
 
     private void Awake()
@@ -47,12 +47,12 @@ public class WaveManager : MonoBehaviour
     private IEnumerator SpawnWave(Wave wave)
     {
         isWaveActive = true;
-        BubblesInTheWave = wave.enemyCount;
+        BubblesInTheWave = wave.bubbleCount;
         Debug.Log("Lancement de la vague : " + wave.waveName);
 
-        for (int i = 0; i < wave.enemyCount; i++)
+        for (int i = 0; i < wave.bubbleCount; i++)
         {
-            SpawnBubble(wave.enemyPrefab);
+            SpawnBubble(wave.prefab);
             yield return new WaitForSeconds(1f / wave.spawnRate);
         }
 
@@ -61,6 +61,7 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnBubble(GameObject BubblePrefab)
     {
+        Debug.Log("je spawn une bulle");
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject bubble = ObjectPool.Instance.GetFromPool(BubblePrefab);
         bubble.transform.position = spawnPoint.position;
@@ -71,8 +72,8 @@ public class WaveManager : MonoBehaviour
     {
         foreach (Wave wave in waves)
         {
-            wave.enemyCount += 2; // Augmenter le nombre d'ennemis par vague
-            wave.spawnRate += 0.1f; // Réduire le temps entre les apparitions
+            wave.bubbleCount += 2; // Increase the number of enemies per wave
+            wave.spawnRate += 0.1f; // Reduce time between spawns
         }
 
         Debug.Log("Difficulté augmentée !");

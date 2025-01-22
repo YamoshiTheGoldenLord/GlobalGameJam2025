@@ -437,20 +437,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - waveName: first
-    enemyPrefab: {fileID: 0}
-    enemyCount: 5
+    prefab: {fileID: 7698484726187734785, guid: efab79b357f2d3d48a58a98ac182f3ad, type: 3}
+    bubbleCount: 2
     spawnRate: 4
   - waveName: 2nd
-    enemyPrefab: {fileID: 0}
-    enemyCount: 10
+    prefab: {fileID: 7698484726187734785, guid: efab79b357f2d3d48a58a98ac182f3ad, type: 3}
+    bubbleCount: 3
     spawnRate: 3
   - waveName: 3rd
-    enemyPrefab: {fileID: 0}
-    enemyCount: 15
+    prefab: {fileID: 7698484726187734785, guid: efab79b357f2d3d48a58a98ac182f3ad, type: 3}
+    bubbleCount: 4
     spawnRate: 2
   - waveName: 4th
-    enemyPrefab: {fileID: 0}
-    enemyCount: 20
+    prefab: {fileID: 7698484726187734785, guid: efab79b357f2d3d48a58a98ac182f3ad, type: 3}
+    bubbleCount: 5
     spawnRate: 1
   spawnPoints:
   - {fileID: 647847455}
@@ -463,7 +463,7 @@ MonoBehaviour:
   - {fileID: 428965278}
   - {fileID: 415454076}
   timeBetweenWaves: 10
-  currentWaveIndex: 1
+  currentWaveIndex: 0
 --- !u!1 &415454075
 GameObject:
   m_ObjectHideFlags: 0
