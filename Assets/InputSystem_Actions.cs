@@ -35,6 +35,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseClickAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""a6a1e7d7-b0bf-4e4a-9447-4450249d9e9c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +55,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TouchAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c9789b5-74cc-4b15-a577-a514711dff16"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClickAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -634,6 +654,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_TouchAction = m_Player.FindAction("TouchAction", throwIfNotFound: true);
+        m_Player_MouseClickAction = m_Player.FindAction("MouseClickAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -714,11 +735,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_TouchAction;
+    private readonly InputAction m_Player_MouseClickAction;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
         public PlayerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         public InputAction @TouchAction => m_Wrapper.m_Player_TouchAction;
+        public InputAction @MouseClickAction => m_Wrapper.m_Player_MouseClickAction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -731,6 +754,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @TouchAction.started += instance.OnTouchAction;
             @TouchAction.performed += instance.OnTouchAction;
             @TouchAction.canceled += instance.OnTouchAction;
+            @MouseClickAction.started += instance.OnMouseClickAction;
+            @MouseClickAction.performed += instance.OnMouseClickAction;
+            @MouseClickAction.canceled += instance.OnMouseClickAction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -738,6 +764,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @TouchAction.started -= instance.OnTouchAction;
             @TouchAction.performed -= instance.OnTouchAction;
             @TouchAction.canceled -= instance.OnTouchAction;
+            @MouseClickAction.started -= instance.OnMouseClickAction;
+            @MouseClickAction.performed -= instance.OnMouseClickAction;
+            @MouseClickAction.canceled -= instance.OnMouseClickAction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -921,6 +950,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnTouchAction(InputAction.CallbackContext context);
+        void OnMouseClickAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

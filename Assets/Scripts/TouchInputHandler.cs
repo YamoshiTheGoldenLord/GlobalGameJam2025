@@ -16,12 +16,16 @@ public class TouchInputHandler : MonoBehaviour
     {
         touchControls.Enable();
         touchControls.Player.TouchAction.performed += ctx => HandleTouch(ctx);
-        Debug.Log("Touch action enabled and event registered.");
+        touchControls.Player.MouseClickAction.started += ctx => HandleMouseClickStart(ctx); // Mouse started
+        touchControls.Player.MouseClickAction.canceled += ctx => HandleMouseClickEnd(ctx); // Mouse canceled
+        Debug.Log("Touch and mouse click actions enabled and events registered.");
     }
 
     private void OnDisable()
     {
         touchControls.Player.TouchAction.performed -= ctx => HandleTouch(ctx);
+        touchControls.Player.MouseClickAction.started -= ctx => HandleMouseClickStart(ctx);
+        touchControls.Player.MouseClickAction.canceled -= ctx => HandleMouseClickEnd(ctx);
         touchControls.Disable();
     }
 
@@ -36,8 +40,29 @@ public class TouchInputHandler : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log($"Touched object: {hit.collider.gameObject.name}");
-
             hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    private void HandleMouseClickStart(InputAction.CallbackContext context)
+    {
+        // Mouse button pressed (click)
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Debug.Log($"Mouse clicked at: {mousePosition}");
+
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, Camera.main.nearClipPlane));
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+        if (hit.collider != null)
+        {
+            Debug.Log($"Mouse clicked on object: {hit.collider.gameObject.name}");
+            hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    private void HandleMouseClickEnd(InputAction.CallbackContext context)
+    {
+        // Optionally handle mouse release if needed
+        Debug.Log("Mouse button released.");
     }
 }
