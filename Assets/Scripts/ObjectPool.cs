@@ -35,5 +35,6 @@ public class ObjectPool : MonoBehaviour
             poolDictionary[prefab] = new Queue<GameObject>();
         }
         poolDictionary[prefab].Enqueue(instance);
+        Destroy(instance);
     }
 }

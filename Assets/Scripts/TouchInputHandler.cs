@@ -10,6 +10,7 @@ public class TouchInputHandler : MonoBehaviour
     {
 
         touchControls = new InputSystem_Actions();
+        
 
     }
 
@@ -17,6 +18,7 @@ public class TouchInputHandler : MonoBehaviour
     {
         touchControls.Enable();
         touchControls.Player.TouchAction.performed += ctx => HandleTouch(ctx);
+        Debug.Log("Touch action enabled and event registered.");
     }
 
     private void OnDisable()
