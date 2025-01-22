@@ -1,17 +1,32 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static GameManager;
 
 public class WaveUI : MonoBehaviour
 {
-    public TextMeshProUGUI waveText;
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI scoreText;
 
     private void Update()
     {
         if (WaveManager.Instance != null)
         {
-           // ScoreText.text = "nombre de bulle éclaté : " + GameManager.Instance.playerScore;
+           scoreText.text = "score : " + GameManager.Instance.playerScore;
+            GameManager.Instance.highScoreText.text = "highScore : " + GameManager.Instance.playerHighScore;
+        }
+    }
+
+    public void TogglePause()
+    {
+        if (GameManager.Instance.currentState == GameState.Playing)
+        {
+            GameManager.Instance.currentState = GameState.Paused;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            GameManager.Instance.currentState = GameState.Playing;
+            Time.timeScale = 1f;
         }
     }
 }

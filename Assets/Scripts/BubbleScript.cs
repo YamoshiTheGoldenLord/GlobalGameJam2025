@@ -6,6 +6,7 @@ public class BubbleScript : MonoBehaviour
 
     public float speed = 2f;
     private Vector3 moveDirection;
+    public ObjectPool poolingSystem;
 
     public void SetDirection(Vector3 direction)
     {
@@ -20,6 +21,8 @@ public class BubbleScript : MonoBehaviour
     {
         Debug.Log($"Touched: {gameObject.name}");
         GetComponent<SpriteRenderer>().color = Color.red;
+        GameManager.Instance.AddScore(1);
+        Destroy(gameObject);
     }
 
 }

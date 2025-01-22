@@ -422,6 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 59629292}
   - component: {fileID: 59629291}
+  - component: {fileID: 59629293}
   m_Layer: 0
   m_Name: top
   m_TagString: Untagged
@@ -499,6 +500,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1358045152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &59629293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59629290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095ce9b681232ad4f895a87083e41c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSystem: {fileID: 376188769}
 --- !u!1 &79513750
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 164872775}
   - component: {fileID: 164872774}
+  - component: {fileID: 164872776}
   m_Layer: 0
   m_Name: right
   m_TagString: Untagged
@@ -710,6 +725,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1358045152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &164872776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164872773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095ce9b681232ad4f895a87083e41c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSystem: {fileID: 376188769}
 --- !u!1 &174438089
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,6 +841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 230372846}
   - component: {fileID: 230372845}
+  - component: {fileID: 230372847}
   m_Layer: 0
   m_Name: left
   m_TagString: Untagged
@@ -890,6 +919,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1358045152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!114 &230372847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230372844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095ce9b681232ad4f895a87083e41c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSystem: {fileID: 376188769}
 --- !u!1 &292792277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1112,7 @@ GameObject:
   - component: {fileID: 370649862}
   - component: {fileID: 370649861}
   m_Layer: 5
-  m_Name: Button
+  m_Name: pauseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1139,7 +1181,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 370649862}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1389229799}
+        m_TargetAssemblyTypeName: WaveUI, Assembly-CSharp
+        m_MethodName: TogglePause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &370649862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2024,6 +2078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1177644038}
   - component: {fileID: 1177644037}
+  - component: {fileID: 1177644039}
   m_Layer: 0
   m_Name: down
   m_TagString: Untagged
@@ -2101,6 +2156,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1358045152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177644039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177644036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095ce9b681232ad4f895a87083e41c94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSystem: {fileID: 376188769}
 --- !u!1 &1247234471
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,9 +2392,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 370649860}
   - {fileID: 11923902}
   - {fileID: 292792278}
-  - {fileID: 370649860}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2346,9 +2414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942fbd45f168fb94cb1bbad3aa009955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveText: {fileID: 292792279}
-  timerText: {fileID: 0}
-  ScoreText: {fileID: 11923903}
+  scoreText: {fileID: 11923903}
+  highScoreText: {fileID: 292792279}
 --- !u!1 &1406444433
 GameObject:
   m_ObjectHideFlags: 0
