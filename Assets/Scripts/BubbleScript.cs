@@ -1,22 +1,29 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BubbleScript : MonoBehaviour
 {
     public GameObject myPrefab;
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public float speed = 2f;
+    private Vector3 moveDirection;
+
+    public void SetDirection(Vector3 direction)
     {
-        if(collision.gameObject.CompareTag("it's the limit of height"))
-        {
-            GetComponent<Rigidbody2D>().gravityScale = 1;
-        }
+        moveDirection = direction;
+    }
+
+    private void Update()
+    {
+        transform.position += moveDirection * speed * Time.deltaTime;
     }
     public void OnTouched()
     {
         Debug.Log($"Touched: {gameObject.name}");
         GetComponent<SpriteRenderer>().color = Color.red;
-        GameManager.Instance.AddScore(1);
-        ObjectPool.Instance.ReturnToPool(myPrefab, gameObject);
+        //GameManager.Instance.AddScore(1);
+        //ObjectPool.Instance.ReturnToPool(myPrefab, gameObject);
     }
 
 }
