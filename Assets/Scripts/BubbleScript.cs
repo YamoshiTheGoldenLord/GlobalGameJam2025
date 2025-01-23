@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class BubbleScript : MonoBehaviour
 {
-    public GameObject myPrefab;
-
     public float speed = 2f;
     private Vector3 moveDirection;
-    public ObjectPool poolingSystem;
 
     public void SetDirection(Vector3 direction)
     {
@@ -17,12 +14,19 @@ public class BubbleScript : MonoBehaviour
     {
         transform.position += moveDirection * speed * Time.deltaTime;
     }
+
     public void OnTouched()
     {
-        Debug.Log($"Touched: {gameObject.name}");
-        GetComponent<SpriteRenderer>().color = Color.red;
-        GameManager.Instance.AddScore(1);
-        Destroy(gameObject);
+        if (CompareTag("bulle"))
+        {
+            Debug.Log($"Bulle normale touchée: {gameObject.name}");
+            GameManager.Instance.AddScore(1);
+            Destroy(gameObject);
+        }
+        else if (CompareTag("bulleAcide"))
+        {
+            GameManager.Instance.AddScore(-1);
+            Destroy(gameObject);
+        }
     }
-
 }

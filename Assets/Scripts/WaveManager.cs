@@ -6,12 +6,15 @@ public class WaveManager : MonoBehaviour
     public static WaveManager Instance { get; private set; }
 
     public GameObject[] bubblePrefabs;
+    public GameObject acidBubblePrefab;
     public Transform[] randomSpawnPoints;
     public Transform[] lineSpawnPoints;
     public Transform[] cornerSpawnPoints;
 
     public float timeBetweenWaves = 10f;
     private int currentWaveIndex = 0;
+    private int totalBubblesSpawned = 0;
+    public float acidBubbleChance = 0.3f;
 
     public ObjectPool objectPool;
 
@@ -46,23 +49,32 @@ public class WaveManager : MonoBehaviour
     {
         int bubbleCount = Random.Range(5, 15);
         float spawnRate = Random.Range(0.5f, 2f);
-        GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
 
         for (int i = 0; i < bubbleCount; i++)
         {
-            int spawnType = Random.Range(0, 3);
+            totalBubblesSpawned++;
+            int spawnType = (totalBubblesSpawned % 50 == 0) ? 2 : Random.Range(0, 2);
 
-            switch (spawnType)
+            if (spawnType == 0 && Random.value < acidBubbleChance)
             {
-                case 0:
-                    SpawnRandom(bubblePrefab);
-                    break;
-                case 1:
-                    SpawnLine(bubblePrefab);
-                    break;
-                case 2:
-                    SpawnFromCorner(bubblePrefab);
-                    break;
+                SpawnRandom(acidBubblePrefab);
+            }
+            else
+            {
+                GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
+
+                switch (spawnType)
+                {
+                    case 0:
+                        SpawnRandom(bubblePrefab);
+                        break;
+                    case 1:
+                        SpawnLine(bubblePrefab);
+                        break;
+                    case 2:
+                        SpawnFromCorner(bubblePrefab);
+                        break;
+                }
             }
 
             yield return new WaitForSeconds(1f / spawnRate);

@@ -16,8 +16,8 @@ public class TouchInputHandler : MonoBehaviour
     {
         touchControls.Enable();
         touchControls.Player.TouchAction.performed += ctx => HandleTouch(ctx);
-        touchControls.Player.MouseClickAction.started += ctx => HandleMouseClickStart(ctx); // Mouse started
-        touchControls.Player.MouseClickAction.canceled += ctx => HandleMouseClickEnd(ctx); // Mouse canceled
+        touchControls.Player.MouseClickAction.started += ctx => HandleMouseClickStart(ctx);
+        touchControls.Player.MouseClickAction.canceled += ctx => HandleMouseClickEnd(ctx);
         Debug.Log("Touch and mouse click actions enabled and events registered.");
     }
 
@@ -40,13 +40,21 @@ public class TouchInputHandler : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log($"Touched object: {hit.collider.gameObject.name}");
-            hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
+
+            if (hit.collider.CompareTag("bulle"))
+            {
+                hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
+            }
+            else if (hit.collider.CompareTag("bulleAcide"))
+            {
+                LoseLife();
+                Destroy(hit.collider.gameObject);
+            }
         }
     }
 
     private void HandleMouseClickStart(InputAction.CallbackContext context)
     {
-        // Mouse button pressed (click)
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Debug.Log($"Mouse clicked at: {mousePosition}");
 
@@ -55,14 +63,33 @@ public class TouchInputHandler : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
         if (hit.collider != null)
         {
-            Debug.Log($"Mouse clicked on object: {hit.collider.gameObject.name}");
-            hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
+            Debug.Log($"Touched object: {hit.collider.gameObject.name}");
+
+            if (hit.collider.CompareTag("bulle"))
+            {
+                hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
+            }
+            else if (hit.collider.CompareTag("bulleAcide"))
+            {
+                LoseLife();
+                Destroy(hit.collider.gameObject);
+            }
         }
     }
 
     private void HandleMouseClickEnd(InputAction.CallbackContext context)
     {
-        // Optionally handle mouse release if needed
         Debug.Log("Mouse button released.");
+    }
+
+    private void LoseLife()
+    {
+        GameManager.Instance.playerLife--;
+        Debug.Log($"Vie perdue ! Vies restantes: {GameManager.Instance.playerLife}");
+
+        if (GameManager.Instance.playerLife <= 0)
+        {
+            Debug.Log("Game Over !");
+        }
     }
 }

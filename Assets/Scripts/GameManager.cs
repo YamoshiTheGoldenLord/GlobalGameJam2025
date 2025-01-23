@@ -43,8 +43,12 @@ public class GameManager : MonoBehaviour
             playerLife = playerStartLifeNumber;
             currentState = GameState.Playing;
         }
+        else if (currentState == GameState.GameOver)
+        {
+            Object.FindFirstObjectByType<LifeLossEffect>().TriggerLifeLoss();
+        }
 
-        if(highScoreText == null)
+        if (highScoreText == null)
         {
             highScoreText = GameObject.Find("highScore").GetComponent<TextMeshProUGUI>();
         }
@@ -52,6 +56,10 @@ public class GameManager : MonoBehaviour
         if (playerScore > playerHighScore)
         {
             UpdateHighscore(playerScore);
+        }
+        if(playerLife <= 0)
+        {
+            currentState = GameState.GameOver;
         }
     }
 
