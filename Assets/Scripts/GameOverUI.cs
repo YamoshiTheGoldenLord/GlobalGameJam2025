@@ -9,6 +9,6 @@ public class GameOverUI : MonoBehaviour
 
     public void ReturnMenu()
     {
-        GameManager.Instance.LoadScene("Game");
+        GameManager.Instance.LoadScene("MainMenu");
     }
 }

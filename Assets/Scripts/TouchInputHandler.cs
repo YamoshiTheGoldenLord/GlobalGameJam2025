@@ -86,6 +86,7 @@ public class TouchInputHandler : MonoBehaviour
     {
         GameManager.Instance.playerLife--;
         Debug.Log($"Vie perdue ! Vies restantes: {GameManager.Instance.playerLife}");
+        GameManager.Instance.UpdateLifeUI();
 
         if (GameManager.Instance.playerLife <= 0)
         {

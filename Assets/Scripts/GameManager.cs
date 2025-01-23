@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
     public TextMeshProUGUI highScoreText;
+    public Image lifeImage;
+    public Sprite[] lifeSprites;
+    private Canvas GameOverScreen;
 
     public enum GameState { MainMenu, StartGame, Playing, Paused, GameOver }
     public GameState currentState;
 
-    public int playerScore = 0, playerHighScore, playerLife;
+    [HideInInspector] public int playerScore = 0, playerHighScore, playerLife;
 
     private void Awake()
     {
@@ -34,38 +38,69 @@ public class GameManager : MonoBehaviour
     {
         LoadHighscore();
         playerLife = playerStartLifeNumber;
+        UpdateLifeUI();
     }
 
     private void Update()
     {
+
         if (currentState == GameState.StartGame)
         {
             playerLife = playerStartLifeNumber;
             currentState = GameState.Playing;
+            UpdateLifeUI();
         }
         else if (currentState == GameState.GameOver)
         {
-            Object.FindFirstObjectByType<LifeLossEffect>().TriggerLifeLoss();
+            GameOverScreen = Object.FindFirstObjectByType<Canvas>();
+
+            GameOverScreen.gameObject.transform.GetChild(1).gameObject.SetActive(true);
         }
 
         if (highScoreText == null)
-        {
             highScoreText = GameObject.Find("highScore").GetComponent<TextMeshProUGUI>();
-        }
+
+        if (lifeImage == null)
+            lifeImage = GameObject.Find("AcidState").GetComponent<Image>();
 
         if (playerScore > playerHighScore)
-        {
             UpdateHighscore(playerScore);
-        }
-        if(playerLife <= 0)
-        {
+
+        if (playerLife <= 0)
             currentState = GameState.GameOver;
-        }
     }
 
     #region Functions
 
-    #region scoring
+    #region lifeGestion
+    public void LoseLife()
+    {
+        if (playerLife > 0)
+        {
+            playerLife--;
+            UpdateLifeUI();
+            Debug.Log("Player lost a life. Remaining lives: " + playerLife);
+
+            if (playerLife <= 0)
+            {
+                currentState = GameState.GameOver;
+            }
+        }
+    }
+
+    public void UpdateLifeUI()
+    {
+
+        if (lifeImage != null && lifeSprites.Length > playerLife)
+        {
+            Debug.Log("UpdateLife");
+            lifeImage.color = new Color(255, 255, 255, 255);
+            lifeImage.sprite = lifeSprites[playerLife];
+        }   
+    }
+    #endregion
+
+    #region Scoring
     public void AddScore(int amount)
     {
         playerScore += amount;
@@ -109,7 +144,6 @@ public class GameManager : MonoBehaviour
         playerScore = 0;
         playerLife = playerStartLifeNumber;
         currentState = GameState.StartGame;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -124,7 +158,6 @@ public class GameManager : MonoBehaviour
             Application.Quit();
         }
     }
-
     #endregion
 
     #endregion
