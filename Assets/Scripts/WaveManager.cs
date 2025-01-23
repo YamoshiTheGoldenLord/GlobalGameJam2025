@@ -63,11 +63,22 @@ public class WaveManager : MonoBehaviour
             {
                 int spawnType = Random.Range(0, 2);
 
-                if (spawnType == 0 && Random.value < acidBubbleChance)
+                GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
+
+                switch (spawnType)
+                {
+                    case 0:
+                        SpawnRandom(bubblePrefab);
+                        break;
+                    case 1:
+                        StartCoroutine(SpawnLine(bubblePrefab));
+                        break;
+                }
+                /*if (spawnType == 0 && Random.value < acidBubbleChance)
                 {
                     SpawnRandom(acidBubblePrefab);
-                }
-                else
+                }*/
+                /*else
                 {
                     GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
 
@@ -77,10 +88,10 @@ public class WaveManager : MonoBehaviour
                             SpawnRandom(bubblePrefab);
                             break;
                         case 1:
-                            SpawnLine(bubblePrefab);
+                            StartCoroutine(SpawnLine(bubblePrefab));
                             break;
                     }
-                }
+                }*/
             }
 
             yield return new WaitForSeconds(1f / spawnRate);
@@ -118,7 +129,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void SpawnLine(GameObject bubblePrefab)
+    private IEnumerator SpawnLine(GameObject bubblePrefab)
     {
         Transform spawnPoint = lineSpawnPoints[Random.Range(0, lineSpawnPoints.Length)];
         Vector3 spawnPosition = spawnPoint.position;
@@ -126,11 +137,13 @@ public class WaveManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
+            yield return new WaitForSeconds(Random.Range(0.2f, 0.5f));
             GameObject bubble = objectPool.GetFromPool(bubblePrefab);
             bubble.transform.position = spawnPosition;
             bubble.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(direction * 1.5f, 0);
             spawnPosition += Vector3.up * 1.0f;
         }
+        yield return null;
     }
 
     private void SpawnFromCorner(GameObject bubblePrefab)

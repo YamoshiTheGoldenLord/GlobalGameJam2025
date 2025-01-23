@@ -79,7 +79,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -118,6 +118,19 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -400,7 +413,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -409,7 +422,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      anim_bulle_frame2_0: -3619521199523866009
+      anim_bulle_frame2_1: 1794867234399410950
+      anim_bulle_frame2_10: 2187423951592187901
+      anim_bulle_frame2_11: 8325475845553466549
+      anim_bulle_frame2_2: -7728691771781101851
+      anim_bulle_frame2_3: 8294866688032333833
+      anim_bulle_frame2_4: -4789931825368850967
+      anim_bulle_frame2_5: -697004864268925032
+      anim_bulle_frame2_6: 5686571577827561746
+      anim_bulle_frame2_7: -3245316818389525516
+      anim_bulle_frame2_8: 9138157615693517632
+      anim_bulle_frame2_9: 1198674212449456123
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
