@@ -7,6 +7,7 @@ public class WaveManager : MonoBehaviour
 
     public GameObject[] bubblePrefabs;
     public GameObject acidBubblePrefab;
+    public GameObject bigBubblePrefab; // Nouvelle grosse bulle
     public Transform[] randomSpawnPoints;
     public Transform[] lineSpawnPoints;
     public Transform[] cornerSpawnPoints;
@@ -53,27 +54,32 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < bubbleCount; i++)
         {
             totalBubblesSpawned++;
-            int spawnType = (totalBubblesSpawned % 50 == 0) ? 2 : Random.Range(0, 2);
 
-            if (spawnType == 0 && Random.value < acidBubbleChance)
+            if (totalBubblesSpawned % 75 == 0)
             {
-                SpawnRandom(acidBubblePrefab);
+                SpawnFromCorner(bigBubblePrefab);
             }
             else
             {
-                GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
+                int spawnType = Random.Range(0, 2);
 
-                switch (spawnType)
+                if (spawnType == 0 && Random.value < acidBubbleChance)
                 {
-                    case 0:
-                        SpawnRandom(bubblePrefab);
-                        break;
-                    case 1:
-                        SpawnLine(bubblePrefab);
-                        break;
-                    case 2:
-                        SpawnFromCorner(bubblePrefab);
-                        break;
+                    SpawnRandom(acidBubblePrefab);
+                }
+                else
+                {
+                    GameObject bubblePrefab = bubblePrefabs[Random.Range(0, bubblePrefabs.Length)];
+
+                    switch (spawnType)
+                    {
+                        case 0:
+                            SpawnRandom(bubblePrefab);
+                            break;
+                        case 1:
+                            SpawnLine(bubblePrefab);
+                            break;
+                    }
                 }
             }
 

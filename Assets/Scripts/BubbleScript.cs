@@ -28,5 +28,10 @@ public class BubbleScript : MonoBehaviour
             GameManager.Instance.AddScore(-1);
             Destroy(gameObject);
         }
+        else if (CompareTag("grosseBulle"))
+        {
+            GameManager.Instance.AddScore(5);
+            Destroy(gameObject);
+        }
     }
 }

@@ -41,7 +41,7 @@ public class TouchInputHandler : MonoBehaviour
         {
             Debug.Log($"Touched object: {hit.collider.gameObject.name}");
 
-            if (hit.collider.CompareTag("bulle"))
+            if (hit.collider.CompareTag("bulle") || hit.collider.CompareTag("grosseBulle"))
             {
                 hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
             }
@@ -65,7 +65,7 @@ public class TouchInputHandler : MonoBehaviour
         {
             Debug.Log($"Touched object: {hit.collider.gameObject.name}");
 
-            if (hit.collider.CompareTag("bulle"))
+            if (hit.collider.CompareTag("bulle") || hit.collider.CompareTag("grosseBulle"))
             {
                 hit.collider.gameObject.SendMessage("OnTouched", SendMessageOptions.DontRequireReceiver);
             }
